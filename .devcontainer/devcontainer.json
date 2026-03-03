@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "ERPNext v15",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
@@ -7,7 +7,6 @@
     }
   },
   "forwardPorts": [8080],
-  "postStartCommand": "docker compose up -d",
+  "postStartCommand": "docker compose up -d && sleep 30 && docker compose exec -T --user frappe backend bench set-config -g db_host db && docker compose exec -T --user frappe backend bench set-config -g redis_cache 'redis://redis-cache:6379' && docker compose exec -T --user frappe backend bench set-config -g redis_queue 'redis://redis-queue:6379' && docker compose exec -T --user frappe backend bench set-config -g redis_socketio 'redis://redis-queue:6379' && tar -xzf sites-backup.tar.gz -C /tmp && docker cp /tmp/sites/frontend erphost-backend-1:/home/frappe/frappe-bench/sites/ && docker compose restart",
   "remoteUser": "root"
 }
-
